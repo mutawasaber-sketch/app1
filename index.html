@@ -10,3 +10,43 @@
 <p>التطبيق شغال تمام</p>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>app1</title>
+<style>
+body{font-family:system-ui;background:#f5f7fb;margin:0;padding:20px;text-align:center}
+.card{max-width:600px;margin:20px auto;background:white;padding:20px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+textarea{width:100%;height:120px;border-radius:12px;border:1px solid #ddd;padding:12px;font-size:16px;box-sizing:border-box}
+button{background:#111;color:white;border:0;padding:12px 20px;border-radius:12px;font-size:16px;width:100%;margin-top:10px;cursor:pointer}
+#reply{margin-top:15px;background:#eef2ff;padding:15px;border-radius:12px;display:none;text-align:right}
+</style>
+</head>
+<body>
+<h1>اهلا بيك في app1</h1>
+<p>التطبيق شغال تمام</p>
+
+<div class="card">
+<h2>🧠 لوحة الأسئلة الذكية</h2>
+<p>اكتب سؤالك والذكاء الاصطناعي هيرد عليك</p>
+<textarea id="q" placeholder="اكتب سؤالك هنا..."></textarea>
+<button onclick="send()">إرسال السؤال</button>
+<div id="reply"></div>
+</div>
+
+<script>
+function send(){
+let q=document.getElementById('q').value;
+let r=document.getElementById('reply');
+if(!q){alert('اكتب سؤالك الأول');return}
+r.style.display='block';
+r.innerHTML='🤖 جاري التفكير...';
+setTimeout(()=>{
+r.innerHTML='🤖 رد الذكاء الاصطناعي:<br><br>سؤالك هو: "'+q+'"<br><br>دي نسخة تجريبية، قريب هنربطها بمخ AI حقيقي.';
+},1500);
+}
+</script>
+</body>
+</html>
