@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Aqlak AI</title>
-<style>
-:root{--bg1:#0f172a;--bg2:#1e1b4b;--acc:#8b5cf6;--acc2:#22d3ee}
-*{box-sizing:border-box;font-family:'Segoe UI',system-ui;margin:0;padding:0}
-body{min-height:100vh;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:#fff;display:flex;flex-direction:column;align-items:center;padding:12px;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:radial-gradient(circle at 20% 20%,rgba(139,92,246,.25),transparent 40%),radial-gradient(circle at 80% 80%,rgba(34,211,238,.2),transparent 40%);pointer-events:none;z-index:-1}
-.top{width:100%;max-width:700px;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;margin-bottom:12px;background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:20px}
-.logo{font-size:24px;font-weight:800;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-#gear{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#fff;width:44px;height:44px;border-radius:14px;font-size:20px;cursor:pointer;transition:.2s}
-#gear:hover{transform:rotate(30deg);background:rgba(255,255,255,.2)}
-#chat{width:100%;max-width:700px;height:58vh;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);border-radius:24px;margin-bottom:12px;scroll-behavior:smooth}
-.msg{padding:13px 17px;border-radius:18px;max-width:85%;line-height:1.7;animation:pop.3s ease;font-size:15px}
-@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-.user{background:linear-gradient(135deg,#7c3aed,#4f46e5);align-self:flex-start;border-bottom-right-radius:6px;box-shadow:0 4px 15px rgba(124,58,237,.3)}
-.ai{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.08);align-self:flex-end;border-bottom-left-radius:6px}
-.typing::after{content:'...';animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.3}}
-.bar{width:100%;max-width:700px;display:flex;gap:10px;padding:12px;background:rgba(255,255,255,.07);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.12);border-radius:20px}
-#in{flex:1;background:rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.1);color:#fff;padding:14px 18px;border-radius:14px;outline:none;font-size:15px}
-#in:focus{border-color:var(--acc)}
-#send{background:linear-gradient(135deg,var(--acc),#6d28d9);color:#fff;border:none;padding:14px 26px;border-radius:14px;font-weight:700;cursor:pointer;transition:.2s}
-#send:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 20px rgba(139,92,246,.4)}
-#send:disabled{opacity:.35;cursor:not-allowed}
-#drawer{position:fixed;top:0;left:-320px;width:300px;height:100%;background:rgba(15,23,42,.97);backdrop-filter:blur(20px);border-right:1px solid rgba(255,255,255,.12);padding:24px;transition:.35s cubic-bezier(.4,0,.2,1);z-index:1000}
-#drawer.open{left:0}#overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);display:none;z-index:999}#overlay.show{display:block}
-#drawer h3{margin-bottom:8px;font-size:20px}#drawer p{color:#94a3b8;font-size:13px;margin-bottom:14px;line-height:1.6}
-#drawer input{width:100%;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.12);color:#fff;padding:13px;border-radius:12px;margin-bottom:12px;outline:none}
-.btn{width:100%;padding:13px;border-radius:12px;border:none;font-weight:700;cursor:pointer;margin-bottom:8px;font-size:15px}
-.save{background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff}.close{background:rgba(255,255,255,.08);color:#fff}
-.hint{text-align:center;color:#64748b;font-size:12px;margin-top:10px}
-@media(max-width:600px){#chat{height:62vh}.top{padding:12px 16px}}
-</style></head><body>
-<div id="overlay" onclick="tg(false)"></div>
-<div id="drawer"><h3>⚙️ الإعدادات</h3><p>الصق مفتاح OpenAI الخاص بك. يُحفظ في متصفحك فقط ولا يُرسل لأي مكان آخر.</p><input type="password" id="k" placeholder="sk-..."><button class="btn save" onclick="save()">حفظ وتفعيل ✨</button><button class="btn close" onclick="tg(false)">إغلاق</button><p id="ks" style="margin-top:10px"></p></div>
-<div class="top"><div><div class="logo">✨ عقلك</div><div id="st" style="font-size:12px;color:#f87171;margin-top:4px">● بانتظار المفتاح</div></div><button id="gear" onclick="tg(true)">⚙️</button></div>
-<div id="chat"></div>
-<div class="bar"><input id="in" placeholder="اسأل أي حاجة..."><button id="send" onclick="go()" disabled>إرسال 🚀</button></div>
-<div class="hint">صُنع بحب في مصر 🇪🇬</div>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Groq AI Chat - شغال</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&display=swap" rel="stylesheet">
+<style>*{font-family:'Tajawal',sans-serif}</style>
+</head>
+<body class="bg-[#07070a] text-white h-[100dvh] flex flex-col">
+<header class="h-16 border-b border-white/10 flex items-center justify-between px-4 bg-[#0f0f14]">
+<div class="flex items-center gap-3"><div class="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center font-black">G</div><div><div class="font-extrabold">Groq Chat</div><div class="text-[11px] text-white/50">شغال بمفتاحك</div></div></div>
+<div class="flex gap-2"><button onclick="openSet()" class="w-10 h-10 rounded-xl bg-white text-black font-bold">⚙️</button><button onclick="newChat()" class="px-4 h-10 rounded-xl bg-violet-600 font-bold">+ جديد</button></div>
+</header>
+<div class="flex-1 flex overflow-hidden">
+<aside class="w-[280px] bg-[#0f0f14] border-l border-white/10 p-3 hidden md:flex flex-col"><div id="list" class="flex-1 overflow-y-auto space-y-2"></div></aside>
+<main class="flex-1 flex flex-col">
+<div id="msgs" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
+<div class="p-3 border-t border-white/10 bg-[#0f0f14]"><div class="max-w-3xl mx-auto flex gap-2 bg-[#1b1b22] border border-white/10 rounded-[20px] p-2"><textarea id="inp" rows="1" placeholder="اكتب سؤالك..." class="flex-1 bg-transparent outline-none resize-none py-2" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea><button onclick="send()" class="w-11 h-11 rounded-full bg-violet-600 font-bold">➤</button></div><div id="status" class="text-[11px] text-white/40 mt-2 text-center">Groq • llama-3.1-8b-instant • جاهز</div></div>
+</main>
+</div>
+
+<div id="set" class="fixed inset-0 z-50 hidden"><div class="absolute inset-0 bg-black/70" onclick="closeSet()"></div><div class="relative w-[92%] max-w-[480px] mx-auto mt-[10vh] bg-[#15151b] border border-white/10 rounded-[22px] p-5"><div class="flex justify-between mb-4"><b>⚙️ مكان المفتاح</b><button onclick="closeSet()" class="w-8 h-8 bg-white/10 rounded-lg">✕</button></div>
+<input id="key" class="w-full h-12 bg-white/5 border border-white/10 rounded-xl px-4 text-sm" value="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">
+<select id="model" class="w-full h-11 mt-3 bg-white/5 border border-white/10 rounded-xl px-3 text-sm"><option value="llama-3.1-8b-instant">llama-3.1-8b-instant (أسرع)</option><option value="llama-3.3-70b-versatile">llama-3.3-70b (أذكى)</option></select>
+<div class="flex gap-2 mt-5"><button onclick="saveSet()" class="flex-1 h-11 bg-violet-600 rounded-xl font-bold">حفظ ✅</button><button onclick="testKey()" class="flex-1 h-11 bg-white/5 border rounded-xl">اختبار</button></div><div id="kstat" class="hidden mt-3 p-3 rounded-xl text-xs border"></div>
+</div></div>
+
 <script>
-let KEY=localStorage.getItem('aq_key')||'';
-const chat=document.getElementById('chat'),inp=document.getElementById('in'),sb=document.getElementById('send'),st=document.getElementById('st');
-function tg(o){document.getElementById('drawer').classList.toggle('open',o);document.getElementById('overlay').classList.toggle('show',o);if(o)document.getElementById('k').value=KEY}
-function ui(){if(KEY){sb.disabled=false;st.textContent='● متصل وجاهز';st.style.color='#4ade80';document.getElementById('ks').textContent='✅ شغال تمام'}else{sb.disabled=true;st.textContent='● بانتظار المفتاح';st.style.color='#f87171'}}
-function save(){KEY=document.getElementById('k').value.trim();if(!KEY)return alert('حط المفتاح الأول');localStorage.setItem('aq_key',KEY);ui();tg(false);add('تم التفعيل بنجاح! 🎉 اسألني أي حاجة','ai')}
-function add(t,c){let d=document.createElement('div');d.className='msg '+c;d.textContent=t;chat.appendChild(d);chat.scrollTop=chat.scrollHeight;return d}
-async function go(){let t=inp.value.trim();if(!t||!KEY)return;add(t,'user');inp.value='';let l=add('يفكر','ai');l.classList.add('typing');
-try{let r=await fetch('https://api.openai.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+KEY},body:JSON.stringify({model:'gpt-4o-mini',messages:[{role:'system',content:'انت مساعد عربي ودود وذكي اسمك عقلك. رد بالعربية باختصار مفيد.'},{role:'user',content:t}]})});let j=await r.json();if(j.error)throw j.error;l.classList.remove('typing');l.textContent=j.choices[0].message.content;chat.scrollTop=chat.scrollHeight}catch(e){l.classList.remove('typing');l.textContent='❌ تأكد من المفتاح وحاول تاني'}}
-inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!sb.disabled)go()});
-ui();add('أهلاً بيك في عقلك ✨🧠\nدوس على الترس فوق وحط مفتاح OpenAI عشان نبدأ','ai');
-</script></body></html>
+const DEFAULT_KEY = "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";
+let apiKey = localStorage.getItem('groq_key') || DEFAULT_KEY;
+let model = localStorage.getItem('groq_model') || "llama-3.1-8b-instant";
+document.getElementById('key').value = apiKey;
+document.getElementById('model').value = model;
+let chats = JSON.parse(localStorage.getItem('groq_chats')||'[]'); let active = localStorage.getItem('groq_active');
+if(!chats.length){let c={id:'1',title:'محادثة جديدة',msgs:[]}; chats=[c]; active=c.id;} if(!active) active=chats[0].id;
+function save(){localStorage.setItem('groq_chats',JSON.stringify(chats)); localStorage.setItem('groq_active',active); localStorage.setItem('groq_key',apiKey); localStorage.setItem('groq_model',model);}
+function getA(){return chats.find(c=>c.id===active)}
+function newChat(){let c={id:Date.now().toString(),title:'محادثة جديدة',msgs:[]}; chats.unshift(c); active=c.id; save(); renderList(); renderMsgs();}
+function renderList(){let l=document.getElementById('list'); l.innerHTML=''; chats.forEach(c=>{let d=document.createElement('div'); d.className=`p-3 rounded-xl cursor-pointer text-sm ${c.id===active?'bg-white text-black':'bg-white/5'}`; d.innerHTML=`<b>${c.title}</b>`; d.onclick=()=>{active=c.id; save(); renderList(); renderMsgs();}; l.appendChild(d);});}
+function renderMsgs(){let b=document.getElementById('msgs'); let ch=getA(); b.innerHTML=''; ch.msgs.forEach(m=>{let r=document.createElement('div'); r.className=`flex ${m.role==='user'?'justify-end':''}`; r.innerHTML=`<div class="max-w-[85%] rounded-[18px] px-4 py-3 text-[14px] ${m.role==='user'?'bg-violet-600':'bg-[#1e1e26] border border-white/10'}"><div style="white-space:pre-wrap">${m.content.replace(/</g,'&lt;')}</div></div>`; b.appendChild(r);}); b.scrollTop=b.scrollHeight;}
+let gen=false;
+async function send(){let inp=document.getElementById('inp'); let txt=inp.value.trim(); if(!txt||gen) return; let ch=getA(); ch.msgs.push({role:'user',content:txt}); if(ch.msgs.length===1) ch.title=txt.slice(0,30); inp.value=''; save(); renderList(); renderMsgs(); gen=true; let ai={role:'assistant',content:''}; ch.msgs.push(ai);
+try{
+let res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Authorization':'Bearer '+apiKey,'Content-Type':'application/json'},body:JSON.stringify({model:model,messages:[{role:'system',content:'أنت مساعد ذكي ترد بالعربية'},...ch.msgs.slice(-10).map(m=>({role:m.role,content:m.content})).slice(0,-1)],temperature:0.7})});
+if(!res.ok) throw new Error(await res.text());
+let data=await res.json(); let full=data.choices[0].message.content;
+for(let i=0;i<full.length;i++){ai.content+=full[i]; if(i%4===0){renderMsgs(); await new Promise(r=>setTimeout(r,8));}} ai.content=full;
+}catch(e){ai.content='❌ خطأ: '+e.message;}
+gen=false; save(); renderMsgs();}
+function openSet(){document.getElementById('set').classList.remove('hidden')}function closeSet(){document.getElementById('set').classList.add('hidden')}
+function saveSet(){apiKey=document.getElementById('key').value.trim(); model=document.getElementById('model').value; save(); closeSet();}
+renderList(); renderMsgs();
+</script>
+</body>
+</html>
